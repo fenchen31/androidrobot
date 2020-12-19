@@ -17,11 +17,6 @@ public class Robot extends View {
     private Paint paint;
     private Path path;
 
-    private int widthMode,heightMode;
-    private int widthSize,heightSize;
-    private int originWidth = 900,originHeight = 800;
-    private int widthScale,heightScale;
-    private int finalWidth,finalHeight;
     public Robot(Context context) {
         super(context);
     }
@@ -31,12 +26,11 @@ public class Robot extends View {
         paint.setColor(Color.BLUE);
         path = new Path();
 
-        dp2px();
     }
     private void dp2px(){
         float scale = getContext().getResources().getDisplayMetrics().density;
-        originWidth = (int) (900*scale + 0.5f);
-        originHeight = (int) (800*scale + 0.5f);
+        //originWidth = (int) (900*scale + 0.5f);
+        //originHeight = (int) (800*scale + 0.5f);
     }
     private int px2dp(float px){
         float scale = getContext().getResources().getDisplayMetrics().density;
@@ -116,7 +110,6 @@ public class Robot extends View {
         canvas.drawPath(path,paint);
         canvas.restore();
     }
-    //
     private void bellyRect(Canvas canvas,Paint paint,Path path){
         paint.reset();
         path.reset();
@@ -206,40 +199,5 @@ public class Robot extends View {
         legsRect(canvas,paint,path);
         legsCircle(canvas,paint,path);
     }
-    private String TAG = "Robot";
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        // AT_MOST:即xml中wrap_content，EXACTLY：match_parent
 
-        //  1.确认宽度的绘制比例     2.确定控件宽度大小
-        if (widthMode == MeasureSpec.AT_MOST){
-            finalWidth = originWidth;
-            widthScale = 1;
-        }else if (widthMode == MeasureSpec.EXACTLY){
-            widthScale = widthSize/originWidth;
-            finalWidth = widthSize;
-        }else{
-            widthScale = 1;
-            finalWidth = originWidth;
-        }
-
-        //  1.确认高度绘制比例      2.确定控件高度大小
-        if (heightMode == MeasureSpec.AT_MOST){
-            finalHeight = originHeight;
-            heightScale = 1;
-        }else if (heightMode == MeasureSpec.EXACTLY){
-            heightScale = heightSize/originHeight;
-            finalHeight = heightSize;
-        }else{
-            heightScale = 1;
-            finalHeight = originHeight;
-        }
-        //  测量完成后调用该方法对数据进行返回，即测量结果在此方法被调用后才会生效
-        setMeasuredDimension(finalWidth,finalHeight);
-    }
 }
